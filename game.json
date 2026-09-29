@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/pewplay/pewplay/main/schema/game.schema.json",
+  "title": "Glyph-O-Tron",
+  "description": "Reverse engineer tangled alien blueprints by spotting each hidden glyph among the decoys in this free puzzle game you play in your browser.",
+  "about": "Glyph-O-Tron hands you a glowing alien blueprint made of five overlapping neon glyphs, all drifting and tangled together. Below it sits a row of parts: the real pieces of the blueprint mixed with convincing decoys. Pick every genuine glyph and the blueprint dissolves piece by piece, spinning you into the next level.\n\nIt is a pure pattern-matching test that gets sneakier as you go. Each level adds more corners and curves to every shape, level 7 brings extra decoys, some levels paint everything in a single color, and from level 3 the machine starts to malfunction, blurring, inverting or graying out the blueprint for a few seconds. Two wrong picks on the same level and the universe is lost, so every choice counts.\n\nOriginally created by Nathan Blenke for js13kGames 2015.",
+  "howToPlay": "Study the blueprint at the top and find the five glyphs it is made of among the parts in the grid. Tap or click a part to pick it: correct picks score 50 points and vanish from the blueprint. Find all five to clear the level, but two wrong picks on the same level end the game.",
+  "controls": [
+    { "input": "Tap / Click", "action": "Pick a part" },
+    { "input": "1–9, 0", "action": "Pick a part by its number" },
+    { "input": "Enter / Space", "action": "Start or try again" },
+    { "input": "M", "action": "Mute or unmute sound" }
+  ],
+  "tips": [
+    "Match the color first, then compare the shape: a decoy can share a color but never the exact outline.",
+    "Watch for pieces disappearing from the blueprint after each correct pick, since what is left gets easier to read.",
+    "During a device malfunction you can simply wait a few seconds for the blueprint to return to normal.",
+    "On single-color levels, look for distinctive corners and closed loops rather than overall size."
+  ],
+  "faq": [
+    {
+      "question": "Is Glyph-O-Tron free to play?",
+      "answer": "Yes, Glyph-O-Tron is completely free and runs right in your browser with nothing to install."
+    },
+    {
+      "question": "Can I play Glyph-O-Tron on a phone or tablet?",
+      "answer": "Yes, just tap the parts to pick them. The layout adapts to portrait and landscape screens, although parts are larger on tablets and in landscape."
+    },
+    {
+      "question": "What is the device malfunction?",
+      "answer": "From level 3 the machine occasionally glitches and blurs, inverts or grays out the blueprint for a few seconds, making the glyphs harder to recognize."
+    }
+  ],
+  "category": "Puzzle",
+  "tags": ["pattern matching", "observation", "neon", "brain", "js13k"],
+  "author": "Nathan Blenke",
+  "playMode": "SinglePlayer",
+  "orientation": "any",
+  "cover": "cover.png",
+  "screenshots": ["screenshots/1.png", "screenshots/2.png", "screenshots/3.png"],
+  "added": "2026-09-28",
+  "draft": false
+}

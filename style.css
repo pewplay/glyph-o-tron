@@ -1,0 +1,456 @@
+/* Glyph-O-Tron - styles (original look by Nathan Blenke, 2015) */
+:root {
+    --bg: #232526;
+    --panel: linear-gradient(45deg, #4776E6 10%, #8E54E9 90%);
+    --card: rgba(0, 0, 0, 0.22);
+    --muted: #8a8a8a;
+    --hud-h: 52px;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: #fff;
+    font: bold 20px/1.3 "Helvetica Neue", Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    height: 100vh;
+    height: 100dvh;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+#app {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ---------- HUD ---------- */
+#hud {
+    position: relative;
+    height: var(--hud-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(20px, 5.4vw, 30px);
+    letter-spacing: -1.5px;
+    white-space: nowrap;
+}
+
+#score {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+    min-width: 60px;
+}
+#score .lbl {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+#score b {
+    font-size: 22px;
+    font-variant-numeric: tabular-nums;
+}
+#score b.bump {
+    animation: bump 300ms ease-out;
+}
+
+#mute {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    padding: 9px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+#mute:hover,
+#mute:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+#mute svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+#mute polygon {
+    fill: var(--muted);
+}
+#mute path {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 5;
+    stroke-linecap: round;
+}
+#mute .cross,
+#mute.off .waves {
+    display: none;
+}
+#mute.off .cross {
+    display: inline;
+}
+
+/* ---------- Stage ---------- */
+#stage {
+    position: relative;
+    width: 100%;
+    height: calc(100% - var(--hud-h));
+}
+#stage.yay {
+    animation: spin 1s linear;
+}
+#stage.doh {
+    animation: shake 200ms linear 3;
+}
+
+#board {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--panel);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+#glyphs {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--gsize, 200px);
+    height: var(--gsize, 200px);
+    transform: translate(-50%, -50%);
+}
+#glyphs svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+#glyphs svg polyline,
+#glyphs svg path {
+    stroke-width: 3.2;
+}
+#glyphs svg:nth-child(1) { animation: hover 5s linear infinite; }
+#glyphs svg:nth-child(2) { animation: float 5s linear infinite 1s; }
+#glyphs svg:nth-child(3) { animation: float 5s linear infinite; }
+#glyphs svg:nth-child(4) { animation: hover 5s linear infinite 3s; }
+#glyphs svg:nth-child(5) { animation: hover 5s linear infinite 1s; }
+#glyphs svg.bye {
+    animation: bye 900ms ease-in forwards;
+}
+#glyphs svg.gone {
+    display: none;
+}
+
+polyline,
+path {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+#level,
+#tries {
+    position: absolute;
+    top: 8px;
+    z-index: 2;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+#level {
+    left: 12px;
+}
+#tries {
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    padding-top: 3px;
+}
+#tries i {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+    transition: background 200ms, box-shadow 200ms;
+}
+#tries i.lost {
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: none;
+}
+
+#malf {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12%;
+    z-index: 2;
+    text-align: center;
+    font-size: clamp(14px, 3.4vmin, 22px);
+    letter-spacing: 1px;
+    color: rgba(0, 0, 0, 0.55);
+    display: none;
+    pointer-events: none;
+}
+#board.malf #malf {
+    display: block;
+    animation: blink 1s steps(5, start) infinite;
+}
+
+/* Malfunction effects ("reversed" visuals) */
+#board.fx-in {
+    filter: invert(100%);
+}
+#board.fx-bl #glyphs {
+    filter: blur(var(--blur, 3px));
+}
+#board.fx-gr {
+    background: linear-gradient(45deg, #555 10%, #888 90%);
+}
+#board.fx-gr #glyphs polyline,
+#board.fx-gr #glyphs path {
+    stroke: #ddd;
+}
+#board.fx-gr #malf {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Cards ---------- */
+#cards {
+    position: absolute;
+    display: grid;
+    gap: var(--gap, 8px);
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 6px;
+    background: var(--card);
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    touch-action: manipulation;
+    transition: background 150ms, opacity 250ms, transform 120ms;
+}
+.card svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--csize, 80px);
+    height: var(--csize, 80px);
+    transform: translate(-50%, -50%);
+    overflow: visible;
+    pointer-events: none;
+}
+.card svg polyline,
+.card svg path {
+    stroke-width: 6;
+}
+.card .key {
+    position: absolute;
+    left: 7px;
+    top: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.28);
+    display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+    .card .key {
+        display: block;
+    }
+    .card:not(.done):hover {
+        background: rgba(255, 255, 255, 0.07);
+    }
+}
+.card:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: -2px;
+}
+.card.press {
+    transform: scale(0.96);
+}
+.card.done {
+    opacity: 0.5;
+    cursor: default;
+}
+.card.yay {
+    background: rgba(0, 255, 0, 0.2);
+}
+.card.doh {
+    background: rgba(255, 0, 0, 0.25);
+}
+.card.reveal {
+    opacity: 1;
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.75);
+    animation: pulse 700ms ease-in-out infinite alternate;
+}
+.card.enter {
+    animation: pop 350ms ease-out both;
+}
+
+/* ---------- Modal ---------- */
+#modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: var(--hud-h);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 400ms, visibility 0s 400ms;
+}
+#modal.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 400ms;
+}
+#modal .box {
+    width: 100%;
+    max-width: 560px;
+    max-height: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+#modal h2 {
+    margin: 0 0 12px;
+    font-size: clamp(20px, 5.5vmin, 30px);
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+#modal p {
+    margin: 0 0 10px;
+    font-size: clamp(15px, 3.4vmin, 18px);
+    font-weight: normal;
+    color: #ccc;
+}
+#modal p:empty {
+    display: none;
+}
+#modal p b {
+    color: #fff;
+}
+#mBtn {
+    display: block;
+    margin: clamp(14px, 4vmin, 34px) auto 0;
+    width: min(70%, 320px);
+    min-height: 52px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 0;
+    color: #fff;
+    font: bold 22px/1 "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 1px;
+    background: var(--panel);
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 0 4px 18px rgba(142, 84, 233, 0.45);
+}
+#mBtn:hover,
+#mBtn:focus-visible {
+    filter: brightness(1.12);
+    outline: none;
+}
+
+/* ---------- Animations ---------- */
+@keyframes float {
+    0%   { transform: translateY(0); }
+    25%  { transform: translateY(-9%); }
+    75%  { transform: translateY(9%); }
+    100% { transform: translateY(0); }
+}
+@keyframes hover {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-9%); }
+    75%  { transform: translateX(9%); }
+    100% { transform: translateX(0); }
+}
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(359deg); }
+}
+@keyframes bye {
+    0%   { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(359deg) scale(0); }
+}
+@keyframes blink {
+    to { visibility: hidden; }
+}
+@keyframes bump {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.25); color: #7CFC00; }
+    100% { transform: scale(1); }
+}
+@keyframes pop {
+    0%   { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pulse {
+    to { box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.2); }
+}
+@keyframes shake {
+    0%   { transform: translate(2px, 1px) rotate(0deg); }
+    10%  { transform: translate(-1px, -2px) rotate(-1deg); }
+    20%  { transform: translate(-3px, 0px) rotate(1deg); }
+    30%  { transform: translate(0px, 2px) rotate(0deg); }
+    40%  { transform: translate(1px, -1px) rotate(1deg); }
+    50%  { transform: translate(-1px, 2px) rotate(-1deg); }
+    60%  { transform: translate(-3px, 1px) rotate(0deg); }
+    70%  { transform: translate(2px, 1px) rotate(-1deg); }
+    80%  { transform: translate(-1px, -1px) rotate(1deg); }
+    90%  { transform: translate(2px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@media (max-height: 460px) {
+    :root { --hud-h: 46px; }
+    h1 { font-size: 22px; }
+}

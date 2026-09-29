@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glyph-O-Tron</title>
+<meta name="description" content="Reverse engineer alien blueprints: pick out every glyph hidden in the tangled schematic.">
+<meta name="theme-color" content="#232526">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!--
+  Glyph-O-Tron
+  Original game (c) 2015 Nathan Blenke, js13kGames 2015 - MIT License (see LICENSE).
+  Responsive / touch rebuild for PewPlay based on the original source.
+-->
+<div id="app">
+    <header id="hud">
+        <div id="score" aria-live="polite"><span class="lbl">Score</span><b id="scoreVal">0</b></div>
+        <h1>GLYPH-O-TRON</h1>
+        <button id="mute" type="button" aria-label="Mute sound" title="Sound on/off">
+            <svg viewBox="0 0 75 75" aria-hidden="true">
+                <polygon points="39.389,13.769 22.235,28.606 6,28.606 6,47.698 21.989,47.698 39.389,62.75"/>
+                <path class="waves" d="M55.081,20.537c3.695,4.986,5.885,11.157,5.885,17.84c0,6.62-2.151,12.737-5.788,17.698 M61.71,62.61c5.267-6.666,8.418-15.08,8.418-24.232c0-9.217-3.192-17.682-8.52-24.368 M48.128,49.029c1.929-3.096,3.062-6.738,3.062-10.652c0-3.978-1.164-7.674-3.146-10.8"/>
+                <path class="cross" d="M52,28 L70,48 M70,28 L52,48"/>
+            </svg>
+        </button>
+    </header>
+
+    <div id="stage">
+        <div id="board">
+            <div id="glyphs"></div>
+            <div id="level">Level <b id="levelVal">1</b></div>
+            <div id="tries" title="Wrong picks left this level"><i></i><i></i></div>
+            <div id="malf">DEVICE MALFUNCTION</div>
+        </div>
+        <div id="cards"></div>
+    </div>
+
+    <div id="modal" class="show">
+        <div class="box">
+            <h2 id="mTitle">Use GLYPH-O-TRON to reverse engineer alien blueprints!</h2>
+            <p id="mText">The blueprint is built from five glyphs. Find each one among the parts below. Two wrong picks and the universe is doomed.</p>
+            <p id="mBest"></p>
+            <button id="mBtn" type="button">PLAY</button>
+        </div>
+    </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
